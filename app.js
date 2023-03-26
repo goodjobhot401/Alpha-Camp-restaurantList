@@ -1,11 +1,27 @@
 // frame setting
 const express = require('express')
+const ehbars = require('express-handlebars')
+const mongoose = require('mongoose')
 const app = express()
 const port = 3000
 const restaurantsData = require('./restaurant.json').results
 
-// handlebars requiring
-const ehbars = require('express-handlebars')
+// connect mongoDB
+if (process.env.NODE_ENV !== 'product') {
+  require('dotenv').config()
+}
+// mongoose.set('strictQuery', false)
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+const db = mongoose.connection
+
+db.on('error', () => {
+  console.log('mongodb error')
+})
+
+db.once('open', () => {
+  console.log('mongodb connected!')
+})
+
 
 // setting template engine
 app.engine('handlebars', ehbars({ defaultLayout: 'main' }))
