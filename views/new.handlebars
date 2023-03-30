@@ -2,96 +2,65 @@
 <div class="container mb-5">
   <div class="row">
     <div class="col-12 col-md-10 mx-auto">
-      <form id="form" novalidate>
+
+      <form action="/restaurants" method="POST">
         <div class="mb-3">
-          <label for="name" class="form-label">餐廳名稱</label>
-          <input type="text" class="form-control" id="name" placeholder="請輸入餐廳名稱 ..." required>
-          <div class="valid-feedback"></div>
-          <div class="invalid-feedback"></div>
+          <label for="name" class="form-label">餐廳名稱<span class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="name" name="name" placeholder="請輸入餐廳名稱 ..." required />
         </div>
 
-        <fieldset class="mb-3" id="category">
-          <legend class="col-form-label" for="job-hunting-status">餐廳類別</legend>
+        <div class="mb-3">
+          <label for="name_en" class="form-label">英文名稱<span class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="name_en" name="name_en" placeholder="請輸入餐廳名稱 ..." required />
+        </div>
 
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" name="category" type="radio" id="active" value="active">
-            <label class="form-check-label" for="active">
-              美式
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" name="category" type="radio" id="active" value="active">
-            <label class="form-check-label" for="active">
-              日式
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" name="category" type="radio" id="active" value="active">
-            <label class="form-check-label" for="active">
-              義式
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" name="category" type="radio" id="active" value="active">
-            <label class="form-check-label" for="active">
-              中式
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" name="category" type="radio" id="active" value="active">
-            <label class="form-check-label" for="active">
-              西式
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" name="category" type="radio" id="active" value="active">
-            <label class="form-check-label" for="active">
-              泰式
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" name="category" type="radio" id="active" value="active">
-            <label class="form-check-label" for="active">
-              韓式
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" name="category" type="radio" id="active" value="active">
-            <label class="form-check-label" for="active">
-              其他
-            </label>
-          </div>
+        <div class="mb-3">
+          <label for="category" class="form-label">餐廳類別<span class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="category" name="category" placeholder="請輸入餐廳類別 ..." required />
+          <datalist id="categoryOptions">
+            <option>美式</option>
+            <option>咖啡</option>
+            <option>中東料理</option>
+            <option>日本料理</option>
+            <option>義式餐廳</option>
+          </datalist>
+        </div>
 
-          <div class="mb-3">
-            <label for="location" class="form-label">餐廳地址</label>
-            <input type="text" class="form-control" id="location" placeholder="請輸入餐廳地址 ..." required>
-            <div class="valid-feedback"></div>
-            <div class="invalid-feedback"></div>
-          </div>
+        <div class="mb-3">
+          <label for="image" class="form-label">餐廳圖片<span class="text-danger">*</span></label>
+          <input type="url" class="form-control" id="image" name="image" placeholder="請輸入照片網址 ..." required />
+        </div>
 
-          <div class="mb-3">
-            <label for="phone" class="form-label">餐廳電話</label>
-            <input type="text" class="form-control" id="phone" placeholder="請輸入餐廳電話 ..." required>
-            <div class="valid-feedback"></div>
-            <div class="invalid-feedback"></div>
-          </div>
+        <div class="mb-3">
+          <label for="location" class="form-label">餐廳地址<span class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="location" name="location" placeholder="請輸入餐廳地址 ..." required />
+        </div>
 
-          <div class="mb-3">
-            <label for="image" class="form-label">餐廳照片</label>
-            <input type="text" class="form-control" id="image" placeholder="請輸入照片網址 ..." required>
-            <div class="valid-feedback"></div>
-            <div class="invalid-feedback"></div>
-          </div>
+        <div class="mb-3">
+          <label for="phone" class="form-label">餐廳電話</label>
+          <input type="tel" class="form-control" id="phone" name="phone" placeholder="請輸入餐廳電話 ..." required />
+        </div>
 
-          <div class="mb-3">
-            <label for="description" class="form-label">餐廳簡介</label>
-            <textarea class="form-control" id="description" name="description" rows="3" cols="20"></textarea>
-            <div class="valid-feedback"></div>
-            <div class="invalid-feedback"></div>
-          </div>
+        <div class="mb-3">
+          <label for="google_map" class="form-label">Google地圖連結<span class="text-danger">*</span></label>
+          <input type="url" class="form-control" id="google_map" name="google_map" required />
+        </div>
 
-        </fieldset>
-        <button id="submit-btn" type="submit" class="btn btn-primary">新增</button>
+        <div class="mb-3">
+          <label for="rating" class="form-label">評分 (0 ~ 5)<span class="text-danger">*</span></label>
+          <input type="number" class="form-control" id="rating" min="0" max="5" step="0.1" name="rating" required />
+        </div>
+
+        <div class="mb-3">
+          <label for="description" class="form-label">餐廳簡介<span class="text-danger">*</span></label>
+          <textarea class="form-control" id="description" name="description" rows="3" cols="20" required /></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">新增餐廳</button>
+        <a href="/">
+          <button type="button" class="btn btn-outline-secondary">返回首頁</button>
+        </a>
+
       </form>
     </div>
   </div>

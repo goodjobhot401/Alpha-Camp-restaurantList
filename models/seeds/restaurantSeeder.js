@@ -15,7 +15,12 @@ db.on('error', () => {
 })
 
 db.once('open', () => {
-  console.log('mongodb connected!')
-  console.log('seeder connected too')
-  // Restaurant.create(restaurantsData)
+  console.log('running restaurantSeeder script')
+
+  Restaurant.create(restaurantsData)
+    .then(() => {
+      console.log('restaurantSeeder done!')
+      db.close()
+    })
+    .catch(error => console.log(err))
 })
