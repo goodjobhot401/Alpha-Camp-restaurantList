@@ -16,7 +16,6 @@ db.on('error', () => {
 
 db.once('open', () => {
   console.log('mongodb connected!')
-  for (let i = 0; i < restaurantsData.length; i++) {
-    Restaurant.create(restaurantsData)
-  }
+  console.log('seeder connected too')
+  // Restaurant.create(restaurantsData)
 })

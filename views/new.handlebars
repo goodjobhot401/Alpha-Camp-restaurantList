@@ -1,0 +1,98 @@
+<h1 class="mb-1 restaurant-show-title">登入新美味</h1>
+<div class="container mb-5">
+  <div class="row">
+    <div class="col-12 col-md-10 mx-auto">
+      <form id="form" novalidate>
+        <div class="mb-3">
+          <label for="name" class="form-label">餐廳名稱</label>
+          <input type="text" class="form-control" id="name" placeholder="請輸入餐廳名稱 ..." required>
+          <div class="valid-feedback"></div>
+          <div class="invalid-feedback"></div>
+        </div>
+
+        <fieldset class="mb-3" id="category">
+          <legend class="col-form-label" for="job-hunting-status">餐廳類別</legend>
+
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" name="category" type="radio" id="active" value="active">
+            <label class="form-check-label" for="active">
+              美式
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" name="category" type="radio" id="active" value="active">
+            <label class="form-check-label" for="active">
+              日式
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" name="category" type="radio" id="active" value="active">
+            <label class="form-check-label" for="active">
+              義式
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" name="category" type="radio" id="active" value="active">
+            <label class="form-check-label" for="active">
+              中式
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" name="category" type="radio" id="active" value="active">
+            <label class="form-check-label" for="active">
+              西式
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" name="category" type="radio" id="active" value="active">
+            <label class="form-check-label" for="active">
+              泰式
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" name="category" type="radio" id="active" value="active">
+            <label class="form-check-label" for="active">
+              韓式
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" name="category" type="radio" id="active" value="active">
+            <label class="form-check-label" for="active">
+              其他
+            </label>
+          </div>
+
+          <div class="mb-3">
+            <label for="location" class="form-label">餐廳地址</label>
+            <input type="text" class="form-control" id="location" placeholder="請輸入餐廳地址 ..." required>
+            <div class="valid-feedback"></div>
+            <div class="invalid-feedback"></div>
+          </div>
+
+          <div class="mb-3">
+            <label for="phone" class="form-label">餐廳電話</label>
+            <input type="text" class="form-control" id="phone" placeholder="請輸入餐廳電話 ..." required>
+            <div class="valid-feedback"></div>
+            <div class="invalid-feedback"></div>
+          </div>
+
+          <div class="mb-3">
+            <label for="image" class="form-label">餐廳照片</label>
+            <input type="text" class="form-control" id="image" placeholder="請輸入照片網址 ..." required>
+            <div class="valid-feedback"></div>
+            <div class="invalid-feedback"></div>
+          </div>
+
+          <div class="mb-3">
+            <label for="description" class="form-label">餐廳簡介</label>
+            <textarea class="form-control" id="description" name="description" rows="3" cols="20"></textarea>
+            <div class="valid-feedback"></div>
+            <div class="invalid-feedback"></div>
+          </div>
+
+        </fieldset>
+        <button id="submit-btn" type="submit" class="btn btn-primary">新增</button>
+      </form>
+    </div>
+  </div>
+</div>

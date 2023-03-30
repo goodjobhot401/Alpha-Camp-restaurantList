@@ -3,7 +3,10 @@
   <div class="search-bar-outer">
     <div class="search-bar-inner">
       <form action="/search">
-        <h4 class="mb-2">尋找餐廳：</h4>
+        <div class="d-flex justify-content-center">
+          <h4 class="mb-2 d-inline">尋找更多美食餐廳：</h4>
+          <a href="./restaurants/new"><i class="fa-solid fa-square-plus fa-xl mt-3"></i></a>
+        </div>
         <div class="input-group">
           <input type="text" name="keywords" class="form-control" placeholder="輸入餐廳、分類" aria-label="Restaurant Name..."
             aria-describedby="search-button" value="{{keywords}}" />
@@ -24,24 +27,33 @@
     <div class="col-md-10 col-12 mx-auto">
       <div class="row row-cols-sm-3">
         {{#each restaurantsData}}
-        <a href="/restaurant/{{ this.id }}" class="text-secondary">
-          <div class="card mb-3">
-            <img class="card-img-top" src="{{ this.image }}" alt="restaurant_img">
-            <div class="card-body p-3">
-              <h6 class="card-title mb-1">{{ this.name }}</h6>
+        <!-- <a href="/restaurant/{{ this._id }}" class="text-secondary"> -->
+        <div class="card mb-3">
+          <a href="/restaurant/{{ this._id }}" class="text-secondary">
+            <img class="card-img-top img-fluid" src="{{ this.image }}" alt="restaurant_img">
+          </a>
+          <div class="card-body p-3">
+            <h6 class="card-title mb-1">{{ this.name }}</h6>
 
-              <div class="restaurant-category mb-1">
-                <i class="fas fa-utensils pr-2"></i> {{ this.category }}
-              </div>
+            <div class="restaurant-category mb-1">
+              <i class="fas fa-utensils pr-2"></i> {{ this.category }}
+            </div>
 
-              <span class="badge badge-pill badge-danger font-weight-normal">
+            <div class="d-flex justify-content-end">
+              <button class="btn btn-outline-secondary m-2">Edit</button>
+              <button class="btn btn-outline-secondary m-2"><a href="/restaurant/{{ this._id }}"
+                  class="text-secondary">Detail</a></button>
+              <button class="btn btn-outline-danger m-2">Delete</button>
+            </div>
+            <!--
+                <span class="badge badge-pill badge-danger font-weight-normal">
                 {{ this.rating }}
                 <i class="fas fa-star fa-xs"></i>
               </span>
-
-            </div>
+              -->
           </div>
-        </a>
+        </div>
+        <!-- </a> -->
         {{/each}}
       </div>
     </div>

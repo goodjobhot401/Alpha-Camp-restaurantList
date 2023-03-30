@@ -2,10 +2,11 @@
 const express = require('express')
 const ehbars = require('express-handlebars')
 const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
+const restaurant = require('./models/restaurant')
 const Restaurant = require('./models/restaurant')
 const app = express()
 const port = 3000
-const restaurantsData = require('./restaurant.json').results
 
 
 // connect mongoDB
@@ -22,7 +23,7 @@ db.on('error', () => {
 
 db.once('open', () => {
   console.log('mongodb connected!')
-  Restaurant.create(restaurantsData)
+  // Restaurant.create(restaurantsData)
 })
 
 
@@ -32,16 +33,28 @@ app.set('view engine', 'handlebars')
 
 // static file setting
 app.use(express.static('public'))
+app.use(bodyParser.urlencoded({ extended: true }))
+
 
 // routes setting
 app.get('/', (req, res) => {
-  res.render('index', { restaurantsData })
+  // res.render('index', { restaurantsData })
+  Restaurant.find()
+    .lean()
+    .then(restaurantsData => res.render('index', { restaurantsData }))
+    .catch(error => console.error(error))
 })
 
 app.get('/restaurant/:restaurantId', (req, res) => {
-  const { restaurantId } = req.params
-  const restaurantData = restaurantsData.find(item => item.id === Number(restaurantId))
-  res.render('show', { restaurantData })
+  const id = req.params.restaurantId
+  Restaurant.findById(id)
+    .lean()
+    .then(restaurantData => res.render('show', { restaurantData }))
+    .catch(error => console.error(error))
+})
+
+app.get('/restaurants/new', (req, res) => {
+  return res.render('new')
 })
 
 app.get('/search', (req, res) => {
