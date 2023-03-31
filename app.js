@@ -58,7 +58,7 @@ app.get('/restaurant/:restaurantId', (req, res) => {
 app.post('/restaurants', (req, res) => {
   const restaurantData = req.body
   Restaurant.create(restaurantData)
-    .then(() => res.redirect("/"))
+    .then(() => res.redirect(`/`))
     .catch((error) => console.log(error))
 })
 
@@ -90,34 +90,30 @@ app.get('/search', (req, res) => {
   if (!req.query.keywords) {
     return res.redirect('/')
   }
-
-  const keywords = req.query.keywords // 內建的 key
-  const keyword = req.query.keywords.trim().toLowerCase() // 輸入的值
-
-  const filteredrestaurants = Restaurant.find(item => item.name.toLowerCase().includes(keyword) ||
-    item.category.includes(keyword))
-  res.render('index', { restaurantsData: filteredrestaurants, keywords })
+  const keyword = req.query.keywords.toLowerCase().trim()
+  const keywords = req.query.keywords
+  return Restaurant.find({})
+    .lean()
+    .then((restaurants) => {
+      const results = restaurants.filter((restaurant) => {
+        return restaurant.name.toLowerCase().includes(keyword) ||
+          restaurant.category.toLowerCase().includes(keyword) ||
+          restaurant.name_en.toLowerCase().includes(keyword)
+      })
+      res.render('index', { restaurants: results, keyword })
+    })
+    .catch(error => {
+      console.log(error)
+      res.render('errorPage', { error: err.message })
+    })
 })
 
-// app.get('/search', (req, res) => {
-//   const { keyword, category, rating } = req.query
-//   Restaurant.find()
-//     .lean()
-//     .then((restaurants) => {
-//       const filterData = filterRestaurants(restaurants, keyword, category, rating)
-//       let notFound = filterData.length ? false : true
-//       res.render('index', { restaurants: filterData, keyword, category, rating, notFound })
-//     })
-// })
+
 
 // 刪除餐廳
 app.post('/restaurant/:restaurantId/delete', (req, res) => {
   const id = req.params.restaurantId
-  Restaurant.findById(id)
-    .then((restaurant) => {
-      restaurant.remove()
-    })
-    // 一直顯示 TypeError: restaurant.remove is not a function
+  return Restaurant.findByIdAndDelete(id)
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
