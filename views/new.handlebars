@@ -16,10 +16,12 @@
 
         <div class="mb-3">
           <label for="category" class="form-label">餐廳類別<span class="text-danger">*</span></label>
-          <input class="form-control" id="category" name="category" placeholder="請輸入餐廳類別 ..." required />
-          <datalist id="categoryOptions">
+          <input list="categories" class="form-control" id="category" name="category" placeholder="請選一個類別 ..."
+            required />
+          <datalist id="categories">
             <option>美式</option>
-            <option>咖啡</option>
+            <option>酒吧</option>
+            <option>咖啡廳</option>
             <option>中東料理</option>
             <option>日本料理</option>
             <option>義式餐廳</option>

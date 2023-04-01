@@ -1,24 +1,30 @@
 <!-- search bar -->
 <div class="container search-bar">
   <div class="search-bar-outer">
-    <div class="search-bar-inner">
-      <form action="/search" method="GET">
-        <h4 class="mb-2 d-inline">尋找更多美食餐廳：</h4>
+    <div class="search-bar-inner flex-column">
+      <form action="/search" method="GET" class="border border-green">
+        <h4 class="mb-2 text-center fw-bolder">尋找更多美食餐廳：</h4>
         <div class="input-group">
-          <input type="text" value="{{keyword}}" name="keyword" class="form-control" placeholder="輸入餐廳 or 類別"
+          <input type="text" value="{{keyword}}" name="keyword" class="form-control me-1" placeholder="輸入餐廳 or 類別"
             aria-label="Restaurant Name..." aria-describedby="search-button" />
-          <div class="input-group-append">
+          <div class="input-group-append d-inline-block">
             <button class="btn btn-major" type="submit" id="search-button">
               <i class="fas fa-search"></i>
             </button>
           </div>
         </div>
-        <div class="text-end">
-          <a href="./restaurants/new">
-            <p class="fs-7 mt-2 mb-0 text-black-50"><small><i class="fa fa-square-plus"> 新增餐廳</i></small></p>
-          </a>
-        </div>
       </form>
+      <div class="input-rightside d-flex justify-content-end">
+        <div class="mt-2">
+          <select class="form-select fs-7" id="sort" name="sort">
+            <option selected>{{#if sortMethod}}{{sortMethod}}{{else}}Sort{{/if}}</option>
+            <option>A > Z</option>
+            <option>Z > A</option>
+            <option>類別</option>
+            <option>地區</option>
+          </select>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -30,7 +36,6 @@
       <div class="row row-cols-sm-3">
 
         {{#each restaurantsData}}
-
         <div class="card mb-3">
           <a href="/restaurants/{{ this._id }}" class="text-secondary">
             <div class="card mb-3">
@@ -42,6 +47,7 @@
                   <i class="fas fa-utensils pr-2"></i> {{ this.category }}
                 </div>
               </div>
+
               <div class="d-flex justify-content-end flex-wrap">
                 <a href="/restaurants/{{ this._id }}/edit">
                   <button class="btn btn-outline-secondary m-2">Edit</button>
@@ -59,6 +65,7 @@
               <span class="badge badge-pill badge-danger font-weight-normal">{{ this.rating }}
                 <i class="fas fa-star fa-xs"></i>
               </span>
+
             </div>
           </a>
         </div>
