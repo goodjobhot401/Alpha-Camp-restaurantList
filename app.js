@@ -4,6 +4,7 @@ const ehbars = require('express-handlebars')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const Restaurant = require('./models/restaurant')
+const restaurant = require('./models/restaurant')
 
 // connect mongoDB
 if (process.env.NODE_ENV !== 'product') {
@@ -37,7 +38,10 @@ app.get('/', (req, res) => {
   Restaurant.find()
     .lean()
     .then(restaurantsData => res.render('index', { restaurantsData }))
-    .catch(error => console.error(error))
+    .catch(err => {
+      console.log(err)
+      res.render('errorPage', { error: err.message })
+    })
 })
 
 // 新增餐廳頁面
@@ -51,15 +55,25 @@ app.get('/restaurant/:restaurantId', (req, res) => {
   return Restaurant.findById(id)
     .lean()
     .then(restaurantData => res.render('show', { restaurantData }))
-    .catch(error => console.error(error))
+    .catch(err => {
+      console.log(err)
+      res.render('errorPage', { error: err.message })
+    })
 })
 
 // 新增餐廳
 app.post('/restaurants', (req, res) => {
   const restaurantData = req.body
+  console.log(restaurantData)
   Restaurant.create(restaurantData)
-    .then(() => res.redirect(`/`))
-    .catch((error) => console.log(error))
+    .then(restaurant => {
+      const id = restaurant._id
+      res.redirect(`/restaurant/${id}`)
+    })
+    .catch(err => {
+      console.log(err)
+      res.render('errorPage', { error: err.message })
+    })
 })
 
 // 編輯餐廳頁面
@@ -68,7 +82,10 @@ app.get('/restaurant/:restaurantId/edit', (req, res) => {
   return Restaurant.findById(restaurantId)
     .lean()
     .then((restaurantData) => res.render('edit', { restaurantData }))
-    .catch(error => console.log(error))
+    .catch(err => {
+      console.log(err)
+      res.render('errorPage', { error: err.message })
+    })
 })
 
 // 編輯餐廳
@@ -82,7 +99,10 @@ app.post('/restaurant/:restaurantId/edit', (req, res) => {
       restaurant.save()
     })
     .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
+    .catch(err => {
+      console.log(err)
+      res.render('errorPage', { error: err.message })
+    })
 })
 
 // 搜尋特定餐廳
@@ -102,8 +122,8 @@ app.get('/search', (req, res) => {
       })
       res.render('index', { restaurants: results, keyword })
     })
-    .catch(error => {
-      console.log(error)
+    .catch(err => {
+      console.log(err)
       res.render('errorPage', { error: err.message })
     })
 })
@@ -115,7 +135,10 @@ app.post('/restaurant/:restaurantId/delete', (req, res) => {
   const id = req.params.restaurantId
   return Restaurant.findByIdAndDelete(id)
     .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
+    .catch(err => {
+      console.log(err)
+      res.render('errorPage', { error: err.message })
+    })
 })
 
 // listen on app.js
