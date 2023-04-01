@@ -4,7 +4,7 @@ const ehbars = require('express-handlebars')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const Restaurant = require('./models/restaurant')
-const restaurant = require('./models/restaurant')
+
 
 // connect mongoDB
 if (process.env.NODE_ENV !== 'product') {
@@ -50,7 +50,7 @@ app.get('/restaurants/new', (req, res) => {
 })
 
 // 瀏覽特定餐廳
-app.get('/restaurant/:restaurantId', (req, res) => {
+app.get('/restaurants/:restaurantId', (req, res) => {
   const id = req.params.restaurantId
   return Restaurant.findById(id)
     .lean()
@@ -68,7 +68,7 @@ app.post('/restaurants', (req, res) => {
   Restaurant.create(restaurantData)
     .then(restaurant => {
       const id = restaurant._id
-      res.redirect(`/restaurant/${id}`)
+      res.redirect(`/restaurants/${id}`)
     })
     .catch(err => {
       console.log(err)
@@ -77,7 +77,7 @@ app.post('/restaurants', (req, res) => {
 })
 
 // 編輯餐廳頁面
-app.get('/restaurant/:restaurantId/edit', (req, res) => {
+app.get('/restaurants/:restaurantId/edit', (req, res) => {
   const { restaurantId } = req.params
   return Restaurant.findById(restaurantId)
     .lean()
@@ -89,7 +89,7 @@ app.get('/restaurant/:restaurantId/edit', (req, res) => {
 })
 
 // 編輯餐廳
-app.post('/restaurant/:restaurantId/edit', (req, res) => {
+app.post('/restaurants/:restaurantId/edit', (req, res) => {
   const id = req.params.restaurantId
   Restaurant.findById(id)
     .then((restaurant) => {
@@ -107,13 +107,13 @@ app.post('/restaurant/:restaurantId/edit', (req, res) => {
 
 // 搜尋特定餐廳
 app.get('/search', (req, res) => {
-  if (!req.query.keywords) {
-    return res.redirect('/')
-  }
-  const keyword = req.query.keywords.toLowerCase().trim()
-  const keywords = req.query.keywords
+  // if (!req.query.keyword) {
+  //   return res.redirect('/')
+  // }
+  const keyword = req.query.keyword.toLowerCase().trim()
   return Restaurant.find({})
     .lean()
+    .then(() => console.log(keyword))
     .then((restaurants) => {
       const results = restaurants.filter((restaurant) => {
         return restaurant.name.toLowerCase().includes(keyword) ||
@@ -131,7 +131,7 @@ app.get('/search', (req, res) => {
 
 
 // 刪除餐廳
-app.post('/restaurant/:restaurantId/delete', (req, res) => {
+app.post('/restaurants/:restaurantId/delete', (req, res) => {
   const id = req.params.restaurantId
   return Restaurant.findByIdAndDelete(id)
     .then(() => res.redirect('/'))
