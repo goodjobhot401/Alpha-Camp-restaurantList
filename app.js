@@ -107,9 +107,9 @@ app.post('/restaurants/:restaurantId/edit', (req, res) => {
 
 // 搜尋特定餐廳
 app.get('/search', (req, res) => {
-  // if (!req.query.keyword) {
-  //   return res.redirect('/')
-  // }
+  if (!req.query.keyword) {
+    return res.redirect('/')
+  }
   const keyword = req.query.keyword.toLowerCase().trim()
   return Restaurant.find({})
     .lean()
