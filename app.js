@@ -1,6 +1,6 @@
 // frame setting
 const express = require('express')
-const ehbars = require('express-handlebars')
+const exphbs = require('express-handlebars')
 const methodOverride = require('method-override')
 const routes = require('./routes')
 const bodyParser = require('body-parser')
@@ -16,7 +16,7 @@ require('./config/mongoose')
 // method-override
 app.use(methodOverride('_method'))
 // template engine
-app.engine('handlebars', ehbars({ defaultLayout: 'main' }))
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 // body-parser
 app.use(bodyParser.urlencoded({ extended: true }))

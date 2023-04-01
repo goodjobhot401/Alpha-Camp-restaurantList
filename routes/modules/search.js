@@ -24,35 +24,19 @@ router.get('/', (req, res) => {
   return Restaurant.find({})
     .lean()
     .sort(sortKeyword)
-    .then(restaurants => {
-      const results = restaurants.filter(
+    .then(restaurantsData => {
+      const results = restaurantsData.filter(
         data =>
           data.name.toLowerCase().includes(keyword) ||
           data.category.includes(keyword) ||
           data.name_en.toLowerCase().includes(keyword)
       )
-      res.render('index', { restaurant: results, keyword, sortMethod })
+      res.render('index', { restaurantsData: results, keyword, sortMethod })
     })
     .catch(err => {
       console.log(err)
       res.render('errorPage', { error: err.message })
     })
-
-  // return Restaurant.find({})
-  //   .lean()
-  //   .then(() => console.log(keyword))
-  //   .then((restaurants) => {
-  //     const results = restaurants.filter((restaurant) => {
-  //       return restaurant.name.toLowerCase().includes(keyword) ||
-  //         restaurant.category.toLowerCase().includes(keyword) ||
-  //         restaurant.name_en.toLowerCase().includes(keyword)
-  //     })
-  //     res.render('index', { restaurants: results, keyword })
-  //   })
-  //   .catch(err => {
-  //     console.log(err)
-  //     res.render('errorPage', { error: err.message })
-  //   })
 })
 
 module.exports = router
