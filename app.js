@@ -26,6 +26,12 @@ app.use(session({
 }))
 // passport
 usePassport(app)
+// req.user => res.locals.user 
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.isAuthenticated()
+  res.locals.user = req.user
+  next()
+})
 // method-override
 app.use(methodOverride('_method'))
 // template engine
