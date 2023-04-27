@@ -33,11 +33,17 @@ router.post('/register', (req, res) => {
         email,
         password
       })
-        .then(() => res.render('index'))
+        .then(() => res.render('login'))
         .catch(err => res.render('errorPage', { error: err.message }))
     }
   })
     .catch(err => res.render('errorPage', { error: err.message }))
+})
+
+
+router.get('/logout', (req, res) => {
+  req.logOut()
+  res.redirect('/users/login')
 })
 
 
