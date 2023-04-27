@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 
-// connect mongoDB
 if (process.env.NODE_ENV !== 'product') {
   require('dotenv').config()
 }
+
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 const db = mongoose.connection
 
