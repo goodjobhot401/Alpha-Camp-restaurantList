@@ -2,8 +2,11 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
 const methodOverride = require('method-override')
-const routes = require('./routes')
+const session = require('express-session')
 const bodyParser = require('body-parser')
+
+
+const routes = require('./routes')
 
 const app = express()
 const port = 3000
@@ -13,6 +16,13 @@ if (process.env.NODE_ENV !== 'product') {
   require('dotenv').config()
 }
 require('./config/mongoose')
+
+// session
+app.use(session({
+  secret: 'ThisIsMySecret',
+  resave: false,
+  saveUninitialized: true
+}))
 // method-override
 app.use(methodOverride('_method'))
 // template engine
