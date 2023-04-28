@@ -18,10 +18,31 @@ router.get('/register', (req, res) => {
 
 router.post('/register', (req, res) => {
   const { name, email, password, confirmPassword } = req.body
+  const errors = []
+
+  if (!name || !email || !password || !confirmPassword) {
+    errors.push({ message: '所有欄位都是必填' })
+  }
+
+  if (password !== confirmPassword) {
+    errors.push({ message: '密碼與確認密碼不相符' })
+  }
+
+  if (errors.length) {
+    return res.render('register', {
+      errors,
+      name,
+      email,
+      password,
+      confirmPassword
+    })
+  }
+
   Member.findOne({ email }).then(member => {
     if (member) {
-      console.log('Member already registered!')
+      errors.push({ message: '這個 email 已經被註冊過' })
       res.render('register', {
+        errors,
         name,
         email,
         password,
@@ -33,7 +54,7 @@ router.post('/register', (req, res) => {
         email,
         password
       })
-        .then(() => res.render('login'))
+        .then(() => res.redirect('/'))
         .catch(err => res.render('errorPage', { error: err.message }))
     }
   })
@@ -43,6 +64,7 @@ router.post('/register', (req, res) => {
 
 router.get('/logout', (req, res) => {
   req.logOut()
+  req.flash('success_msg', '你已經成功登出!')
   res.redirect('/users/login')
 })
 
