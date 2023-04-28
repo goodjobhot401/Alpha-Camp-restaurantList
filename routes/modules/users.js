@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Member = require('../../models/user')
 const passport = require('passport')
+const bcrypt = require('bcryptjs')
 
 router.get('/login', (req, res) => {
   res.render('login')
@@ -23,11 +24,9 @@ router.post('/register', (req, res) => {
   if (!name || !email || !password || !confirmPassword) {
     errors.push({ message: '所有欄位都是必填' })
   }
-
   if (password !== confirmPassword) {
     errors.push({ message: '密碼與確認密碼不相符' })
   }
-
   if (errors.length) {
     return res.render('register', {
       errors,
@@ -48,19 +47,20 @@ router.post('/register', (req, res) => {
         password,
         confirmPassword
       })
-    } else {
-      return Member.create({
+    }
+
+    return bcrypt
+      .genSalt(10)
+      .then(salt => bcrypt.hash(password, salt))
+      .then(hash => Member.create({
         name,
         email,
-        password
-      })
-        .then(() => res.redirect('/'))
-        .catch(err => res.render('errorPage', { error: err.message }))
-    }
+        password: hash
+      }))
+      .then(() => res.redirect('/'))
+      .catch(err => res.render('errorPage', { error: err.message }))
   })
-    .catch(err => res.render('errorPage', { error: err.message }))
 })
-
 
 router.get('/logout', (req, res) => {
   req.logOut()
