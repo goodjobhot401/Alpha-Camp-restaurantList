@@ -1,6 +1,13 @@
 # npm 
-/node_modules
-/model_answer
+node_modules
+model_answer
+*.log
+*.gz
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
 
 # dotenv
 .env

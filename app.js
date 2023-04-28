@@ -10,7 +10,7 @@ const flash = require('connect-flash')
 const routes = require('./routes')
 
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 
 // mongoDB
 if (process.env.NODE_ENV !== 'product') {
@@ -20,7 +20,7 @@ require('./config/mongoose')
 
 // session
 app.use(session({
-  secret: 'ThisIsMySecret',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
   useFindAndModify: false
