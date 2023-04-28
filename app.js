@@ -22,7 +22,8 @@ require('./config/mongoose')
 app.use(session({
   secret: 'ThisIsMySecret',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  useFindAndModify: false
 }))
 // passport
 usePassport(app)

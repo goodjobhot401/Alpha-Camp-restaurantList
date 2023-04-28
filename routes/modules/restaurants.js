@@ -9,8 +9,8 @@ router.get('/new', (req, res) => {
 
 router.post('/', (req, res) => {
   const restaurantData = req.body
-  console.log(restaurantData)
-  Restaurant.create(restaurantData)
+  const memberId = req.user._id
+  Restaurant.create({ ...restaurantData, memberId })
     .then(restaurant => {
       const id = restaurant._id
       res.redirect(`/restaurants/${id}`)
@@ -23,8 +23,9 @@ router.post('/', (req, res) => {
 
 // Detail
 router.get('/:restaurantId', (req, res) => {
-  const id = req.params.restaurantId
-  return Restaurant.findById(id)
+  const memberId = req.user._id
+  const _id = req.params.restaurantId
+  return Restaurant.findOne({ _id, memberId }) // 使用 findOne() 就必須以 mongoDB 相同的 _id 去查詢
     .lean()
     .then(restaurantData => res.render('show', { restaurantData }))
     .catch(err => {
@@ -35,50 +36,33 @@ router.get('/:restaurantId', (req, res) => {
 
 // Update
 router.get('/:restaurantId/edit', (req, res) => {
-  const { restaurantId } = req.params
-  return Restaurant.findById(restaurantId)
+  const memberId = req.user._id
+  const _id = req.params.restaurantId
+  return Restaurant.findOne({ _id, memberId })
     .lean()
-    .then((restaurantData) => res.render('edit', { restaurantData }))
+    .then(restaurantData => res.render('edit', { restaurantData }))
     .catch(err => {
       console.log(err)
       res.render('errorPage', { error: err.message })
     })
 })
 
+
 router.put('/:restaurantId', (req, res) => {
-  const { restaurantId } = req.params
-  return Restaurant.findByIdAndUpdate(restaurantId, req.body)
-    .then(() => console.log)
-    .then(() => res.redirect(`/restaurants/${restaurantId}`))
-    .catch(err => {
-      console.log(err)
-      res.render('errorPage', { error: err.message })
-    })
-  // 方法 2 
-  // const id = req.params.restaurantId
-  // Restaurant.findById(id)
-  //   .then((restaurant) => {
-  //     for (const key in req.body) {
-  //       restaurant[key] = req.body[key]
-  //     }
-  //     restaurant.save()
-  //   })
-  //   .then(() => res.redirect('/'))
-  //   .catch(err => {
-  //     console.log(err)
-  //     res.render('errorPage', { error: err.message })
-  //   })
+  const memberId = req.user._id
+  const _id = req.params.restaurantId
+  Restaurant.findOneAndUpdate({ _id, memberId }, req.body)
+    .then(() => res.redirect(`/restaurants/${_id}`))
+    .catch(err => res.render('errorPage', { error: err.message }))
 })
 
 // Delete
 router.delete('/:restaurantId', (req, res) => {
-  const { restaurantId } = req.params
-  return Restaurant.findByIdAndDelete(restaurantId)
+  const memberId = req.user._id
+  const _id = req.params.restaurantId
+  Restaurant.findOneAndDelete({ _id, memberId })
     .then(() => res.redirect('/'))
-    .catch(err => {
-      console.log(err)
-      res.render('errorPage', { error: err.message })
-    })
+    .catch(err => res.render('errorPage', { error: err.message }))
 })
 
 module.exports = router

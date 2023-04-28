@@ -17,10 +17,7 @@ module.exports = app => {
         }
         return done(null, user)
       })
-      .catch(err => {
-        done(err, false)
-        res.render('errorPage', { error: err.message })
-      })
+      .catch(err => done(err, false))
   }))
 
   passport.serializeUser((user, done) => {
