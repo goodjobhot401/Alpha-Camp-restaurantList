@@ -20,8 +20,9 @@ router.get('/', (req, res) => {
   if (sortMethod === '地區')
     sortKeyword = { location: 'asc' }
 
+  const memberId = req.user._id
 
-  return Restaurant.find({})
+  return Restaurant.find({ memberId })
     .lean()
     .sort(sortKeyword)
     .then(restaurantsData => {
